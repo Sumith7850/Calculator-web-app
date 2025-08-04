@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Super Stylish Calculator</title>
+</head>
+<body style="margin:0; padding:0; height:100vh; display:flex; justify-content:center; align-items:center; background:linear-gradient(135deg, #232526, #414345); font-family:'Segoe UI', sans-serif;" onkeydown="handleKey(event)">
+
+  <!-- Sound -->
+  <audio id="clickSound" src="https://www.soundjay.com/buttons/sounds/button-29.mp3"></audio>
+
+  <div id="container" style="background:rgba(255,255,255,0.1); padding:50px; border-radius:50px; box-shadow:0 8px 32px 0 rgba(31,38,135,0.37); backdrop-filter:blur(8px); border:4px solid rgba(255,255,255,0.18); width:400px;">
+    <h2 style="text-align:center; color:white; margin-bottom:10px;">Glass Calculator</h2>
+
+    <input type="text" id="display" disabled style="width:93%; padding:15px; border-radius:10px; font-size:24px; border:none; margin-bottom:15px; background:rgba(255,255,255,0.2); color:white;">
+
+    <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:10px;">
+      <button onclick="play(); clearDisplay()" style="padding:15px; font-size:18px; border:none; border-radius:10px; background:#e63946; color:white;">C</button>
+      <button onclick="play(); append('%')" style="padding:15px; font-size:18px; border:none; border-radius:10px;">%</button>
+      <button onclick="play(); append('/')" style="padding:15px; font-size:18px; border:none; border-radius:10px;">÷</button>
+      <button onclick="play(); append('*')" style="padding:15px; font-size:18px; border:none; border-radius:10px;">×</button>
+
+      <button onclick="play(); append('7')" style="padding:15px; font-size:18px; border:none; border-radius:10px;">7</button>
+      <button onclick="play(); append('8')" style="padding:15px; font-size:18px; border:none; border-radius:10px;">8</button>
+      <button onclick="play(); append('9')" style="padding:15px; font-size:18px; border:none; border-radius:10px;">9</button>
+      <button onclick="play(); append('-')" style="padding:15px; font-size:18px; border:none; border-radius:10px;">−</button>
+
+      <button onclick="play(); append('4')" style="padding:15px; font-size:18px; border:none; border-radius:10px;">4</button>
+      <button onclick="play(); append('5')" style="padding:15px; font-size:18px; border:none; border-radius:10px;">5</button>
+      <button onclick="play(); append('6')" style="padding:15px; font-size:18px; border:none; border-radius:10px;">6</button>
+      <button onclick="play(); append('+')" style="padding:15px; font-size:18px; border:none; border-radius:10px;">+</button>
+
+      <button onclick="play(); append('1')" style="padding:15px; font-size:18px; border:none; border-radius:10px;">1</button>
+      <button onclick="play(); append('2')" style="padding:15px; font-size:18px; border:none; border-radius:10px;">2</button>
+      <button onclick="play(); append('3')" style="padding:15px; font-size:18px; border:none; border-radius:10px;">3</button>
+      <button onclick="play(); calculate()" style="padding:15px; font-size:18px; border:none; border-radius:10px; background:#06d6a0; color:white;">=</button>
+
+      <button onclick="play(); append('0')" style="grid-column:span 2; padding:15px; font-size:18px; border:none; border-radius:10px;">0</button>
+      <button onclick="play(); append('.')" style="padding:15px; font-size:18px; border:none; border-radius:10px;">.</button>
+      <button onclick="play(); backspace()" style="padding:15px; font-size:18px; border:none; border-radius:10px;">←</button>
+    </div>
+
+    <div style="text-align:center; margin-top:15px;">
+      <button onclick="toggleMode()" style="padding:10px 20px; border:none; border-radius:10px; background:#ffffff30; color:white;">Toggle Mode</button>
+    </div>
+  </div>
+
+  <script>
+    let isDark = true;
+
+    function play() {
+      document.getElementById("clickSound").play();
+    }
+
+    function append(char) {
+      document.getElementById('display').value += char;
+    }
+
+    function clearDisplay() {
+      document.getElementById('display').value = '';
+    }
+
+    function calculate() {
+      try {
+        document.getElementById('display').value = eval(document.getElementById('display').value);
+      } catch {
+        document.getElementById('display').value = 'Error';
+      }
+    }
+
+    function backspace() {
+      let current = document.getElementById('display').value;
+      document.getElementById('display').value = current.slice(0, -1);
+    }
+
+    function toggleMode() {
+      isDark = !isDark;
+      document.body.style.background = isDark ? 'linear-gradient(135deg, #232526, #414345)' : 'linear-gradient(135deg, #89f7fe, #66a6ff)';
+    }
+
+    function handleKey(event) {
+      const key = event.key;
+      if (!isNaN(key) || ['+', '-', '*', '/', '%', '.'].includes(key)) {
+        play(); append(key);
+      } else if (key === 'Enter') {
+        play(); calculate();
+      } else if (key === 'Backspace') {
+        play(); backspace();
+      } else if (key === 'c' || key === 'C') {
+        play(); clearDisplay();
+      }
+    }
+  </script>
+</body>
+</html>
